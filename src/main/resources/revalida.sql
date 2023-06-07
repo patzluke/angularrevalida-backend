@@ -36,6 +36,16 @@ create table list_of_interest (
 	foreign key(user_id) references users(user_id) on delete cascade
 );
 
+drop table if exists otp;
+create table otp (
+	otp_id serial,
+	user_id int,
+	issued_time time,
+	expiry_time time,
+	otp_code varchar(10),
+	foreign key(user_id) references users(user_id) on delete cascade
+);
+
 drop table if exists category;
 create table category (
 	category_id serial primary key,

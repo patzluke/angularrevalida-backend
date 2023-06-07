@@ -1,7 +1,6 @@
 package org.ssglobal.training.codes.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,11 +14,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.ssglobal.training.codes.service.ProductService;
 import org.ssglobal.training.codes.tables.pojos.Product;
-import org.ssglobal.training.codes.tables.pojos.Users;
 
 import lombok.extern.log4j.Log4j2;
 

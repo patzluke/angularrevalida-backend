@@ -16,7 +16,7 @@ public class UserTokenController {
 	private UserTokenService userTokenService;
 	
 	@SuppressWarnings("rawtypes")
-	@DeleteMapping(value = "/delete/{userId}")
+	@DeleteMapping(value = "/insert")
 	public ResponseEntity deleteUserById(@PathVariable(name = "userId") Integer userId) {
 		return userTokenService.deleteUserToken(userId) ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
 	}

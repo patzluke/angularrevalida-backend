@@ -1,10 +1,12 @@
 package org.ssglobal.training.codes.controller;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,9 +20,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.ssglobal.training.codes.models.EmailDetails;
+import org.ssglobal.training.codes.service.EmailService;
 import org.ssglobal.training.codes.service.ListOfInterestService;
+import org.ssglobal.training.codes.service.OTPService;
 import org.ssglobal.training.codes.service.UserService;
+import org.ssglobal.training.codes.service.Impl.EmailServiceImpl;
 import org.ssglobal.training.codes.tables.pojos.ListOfInterest;
+import org.ssglobal.training.codes.tables.pojos.Otp;
 import org.ssglobal.training.codes.tables.pojos.Users;
 
 import lombok.extern.log4j.Log4j2;
@@ -32,8 +39,15 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	
 	@Autowired
 	private ListOfInterestService listOfInterestService;
+	
+	@Autowired
+	private OTPService otpService;
+	
+	@Autowired
+	private EmailServiceImpl emailService;
 
 	@GetMapping(value = "/get")
 	public ResponseEntity<List<Users>> selectAllUsers() {
@@ -50,20 +64,14 @@ public class UserController {
 		return new ResponseEntity<>(userService.selectUser(userId), HttpStatus.OK);
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "null", "unused" })
 	@PostMapping(value = "/insert", consumes = {MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<Users> createUser(@RequestBody Map<String, Object> user) {
-		
-		Users newUser = new Users(null, user.get("username").toString(), 
-								user.get("password").toString(), 
-								user.get("firstName").toString(), 
-								user.get("middleName").toString(), 
-								user.get("lastName").toString(), 
-								user.get("email").toString(), 
-								user.get("address").toString(), 
-								user.get("contactNo").toString(), 
-								LocalDate.parse(user.get("birthDate").toString()), 
-								user.get("userType").toString(), 
+	public ResponseEntity<Users> createUser(@RequestBody Map<String, Object> user) {	
+		Users newUser = new Users(null, user.get("username").toString(), user.get("password").toString(), 
+								user.get("firstName").toString(), user.get("middleName").toString(), 
+								user.get("lastName").toString(), user.get("email").toString(), 
+								user.get("address").toString(), user.get("contactNo").toString(), 
+								LocalDate.parse(user.get("birthDate").toString()), user.get("userType").toString(), 
 								Boolean.valueOf(user.get("isActive").toString()));
 		try {
 			Users getNewUser = userService.insertUser(newUser);
@@ -72,6 +80,29 @@ public class UserController {
 					ListOfInterest userInterest = new ListOfInterest(getNewUser.getUserId(), data.toString());
 					listOfInterestService.insertCustomerInterest(userInterest);
 				});
+			}
+			else {
+				return ResponseEntity.badRequest().build();
+			}
+			LocalTime issuedTime = LocalTime.now();
+			LocalTime expiryTime = issuedTime.plusMinutes(5);
+	        String sixRandomNumber = RandomStringUtils.randomNumeric(6);
+	        Otp otp = new Otp(null, getNewUser.getUserId(), issuedTime, expiryTime, sixRandomNumber);
+			Otp createdOtp = otpService.createOTP(otp);
+			if (otp != null) {
+				EmailDetails emailDetails = new EmailDetails();
+				emailDetails.setRecipient(newUser.getEmail());
+				emailDetails.setSubject("OTP Verification");
+				emailDetails.setMsgBody("""
+						Hi,
+						Thank you for choosing our restaurant. Use The Otp below to complete the procedures.
+						It is valid for only 5 minutes!
+						The verification code is: %s
+						
+						Regards,
+						Jobilee
+						""".formatted(createdOtp.getOtpCode()));
+				String emailresponse = emailService.sendSimpleMail(emailDetails);
 				return ResponseEntity.ok(getNewUser);
 			}
 		} catch (Exception e) {
