@@ -52,6 +52,7 @@ create table product (
 	price float,
 	category_id int,
 	sales int default 0,
+	image varchar(200),
 	foreign key(category_id) references category(category_id) on delete cascade
 );
 

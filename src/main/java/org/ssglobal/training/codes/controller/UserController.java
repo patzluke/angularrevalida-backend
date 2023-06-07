@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.ssglobal.training.codes.service.ListOfInterestService;
 import org.ssglobal.training.codes.service.UserService;
@@ -39,6 +40,11 @@ public class UserController {
 		return new ResponseEntity<>(userService.selectAllCustomers(), HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "/get/search")
+	public ResponseEntity<List<Users>> selectUserByName(@RequestParam(name = "name") String name) {
+		return new ResponseEntity<>(userService.selectUserByName(name), HttpStatus.OK);
+	}
+	
 	@GetMapping(value = "/get/{userId}")
 	public ResponseEntity<Users> selectUserById(@PathVariable(name = "userId") Integer userId) {
 		return new ResponseEntity<>(userService.selectUser(userId), HttpStatus.OK);
@@ -50,12 +56,12 @@ public class UserController {
 		
 		Users newUser = new Users(null, user.get("username").toString(), 
 								user.get("password").toString(), 
-								user.get("username").toString(), 
 								user.get("firstName").toString(), 
 								user.get("middleName").toString(), 
 								user.get("lastName").toString(), 
 								user.get("email").toString(), 
 								user.get("address").toString(), 
+								user.get("contactNo").toString(), 
 								LocalDate.parse(user.get("birthDate").toString()), 
 								user.get("userType").toString(), 
 								Boolean.valueOf(user.get("isActive").toString()));
@@ -82,7 +88,8 @@ public class UserController {
 			List<Object> usertoken = new ArrayList<>();
 			String token = userService.generateToken(authenticatedUser.getUserId(), 
 													 authenticatedUser.getUsername(), 
-													 authenticatedUser.getUserType());
+													 authenticatedUser.getUserType(),
+													 authenticatedUser.getIsActive());
 			usertoken.add(token);
 			return new ResponseEntity<>(usertoken, HttpStatus.OK);
 		}
@@ -98,7 +105,6 @@ public class UserController {
 	@SuppressWarnings("rawtypes")
 	@PutMapping(value = "/update/activestatus", consumes = {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity changeCustomerActiveStatus(@RequestBody Map<String, Object> payload) {
-		log.info(payload.get("isActive") + " " + payload.get("userId"));
 		return userService.changeCustomerActiveStatus(Boolean.parseBoolean(payload.get("isActive").toString()), 
 											  Integer.parseInt(payload.get("userId").toString())) 
 				? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
@@ -113,7 +119,6 @@ public class UserController {
 	@SuppressWarnings("rawtypes")
 	@PutMapping(value = "/update/password", consumes = {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity changePassword(@RequestBody Map<String, String> payload) {
-		log.info(payload.get("password") + " " + payload.get("username"));
 		return userService.changePassword(payload.get("password"), payload.get("username")) ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
 	}
 }

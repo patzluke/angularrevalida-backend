@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.ssglobal.training.codes.service.ProductService;
 import org.ssglobal.training.codes.tables.pojos.Product;
@@ -30,19 +32,28 @@ public class ProductController {
 	private ProductService productService;
 
 	@GetMapping(value = "/get")
-	public ResponseEntity<List<Product>> selectAllUsers() {
+	public ResponseEntity<List<Product>> selectAllProducts() {
 		return new ResponseEntity<>(productService.selectAllProducts(), HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "/get/category/{categoryId}")
+	public ResponseEntity<List<Product>> selectAllProductsByCategory(@PathVariable(name = "categoryId") Integer categoryId) {
+		return new ResponseEntity<>(productService.selectAllProductsByCategory(categoryId), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/get/search")
+	public ResponseEntity<List<Product>> selectUserByName(@RequestParam(name = "name") String name) {
+		return new ResponseEntity<>(productService.selectProductsByName(name), HttpStatus.OK);
+	}
+	
 	@GetMapping(value = "/get/{productId}")
-	public ResponseEntity<Product> selectUserById(@PathVariable(name = "productId") Integer productId) {
+	public ResponseEntity<Product> selectProductById(@PathVariable(name = "productId") Integer productId) {
 		return new ResponseEntity<>(productService.selectProduct(productId), HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/insert", consumes = {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<Product> createUser(@RequestBody Product product) {
 		try {
-			log.info(product.getProductDetails() + " " + product.getIngredients());
 			Product newProduct = productService.insertProduct(product);
 			if (newProduct != null) {
 				return ResponseEntity.ok(newProduct);

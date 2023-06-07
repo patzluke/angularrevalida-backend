@@ -32,6 +32,15 @@ public class UserRepository {
 		return dslContext.selectFrom(USERS).where(USERS.USER_ID.eq(userId)).fetchOneInto(Users.class);
 	}
 	
+	public List<Users> selectUserByName(String search) {
+		return dslContext.selectFrom(USERS)
+						 .where(USERS.FIRST_NAME.likeIgnoreCase(DSL.concat("%", search, "%"))
+						 .or(USERS.MIDDLE_NAME.likeIgnoreCase(DSL.concat("%", search, "%"))))
+						 .or(USERS.LAST_NAME.likeIgnoreCase(DSL.concat("%", search, "%")))
+						 .and(USERS.USER_TYPE.notEqualIgnoreCase("Admin"))
+						 .fetchInto(Users.class);
+	}
+	
 	public Users insertUser(Users user) {
 		return dslContext.insertInto(USERS)
 				  .set(USERS.USERNAME, user.getUsername())
@@ -81,7 +90,7 @@ public class UserRepository {
 	}
 	
 	public Users searchUserByEmailAndPass(Map<String, String> parameter) {
-		Users user = dslContext.select(USERS.USER_ID, USERS.EMAIL, USERS.PASSWORD, USERS.USER_TYPE)
+		Users user = dslContext.select(USERS.USER_ID, USERS.EMAIL, USERS.PASSWORD, USERS.USER_TYPE, USERS.IS_ACTIVE)
 											  .from(USERS)
 				   							  .where(USERS.USERNAME.eq(parameter.get("username"))
 				   							  )

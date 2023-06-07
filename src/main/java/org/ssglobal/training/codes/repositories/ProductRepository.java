@@ -25,6 +25,19 @@ public class ProductRepository {
 		return products;
 	}
 	
+	public List<Product> selectAllProductsByCategory(Integer categoryId) {
+		List<Product> products = dslContext.selectFrom(PRODUCT)
+										   .where(PRODUCT.CATEGORY_ID.eq(categoryId))
+										   .fetchInto(Product.class);
+		return products;
+	}
+	
+	public List<Product> selectProductsByName(String search) {
+		return dslContext.selectFrom(PRODUCT)
+						 .where(PRODUCT.PRODUCT_NAME.likeIgnoreCase(DSL.concat("%", search, "%")))
+						 .fetchInto(Product.class);
+	}
+	
 	public Product selectProduct(Integer productId) {
 		return dslContext.selectFrom(PRODUCT).where(PRODUCT.PRODUCT_ID.eq(productId)).fetchOneInto(Product.class);
 	}
@@ -37,9 +50,10 @@ public class ProductRepository {
 				  .set(PRODUCT.QUANTITY, product.getQuantity())
 				  .set(PRODUCT.PRICE, product.getPrice())
 				  .set(PRODUCT.CATEGORY_ID, product.getCategoryId())
+				  .set(PRODUCT.IMAGE, product.getImage())
 				  .returning(PRODUCT.PRODUCT_ID, PRODUCT.PRODUCT_NAME, PRODUCT.PRODUCT_DETAILS, 
 						  	 PRODUCT.INGREDIENTS, PRODUCT.QUANTITY, PRODUCT.PRICE, 
-						  	 PRODUCT.CATEGORY_ID)
+						  	 PRODUCT.CATEGORY_ID, PRODUCT.IMAGE)
 				  .fetchOneInto(Product.class);
 	}
 	
@@ -51,6 +65,7 @@ public class ProductRepository {
 									   .set(PRODUCT.QUANTITY, product.getQuantity())
 									   .set(PRODUCT.PRICE, product.getPrice())
 									   .set(PRODUCT.CATEGORY_ID, product.getCategoryId())
+									   .set(PRODUCT.IMAGE, product.getImage())
 									   .where(PRODUCT.PRODUCT_ID.eq(product.getProductId()))
 									   .execute() == 1;
 	

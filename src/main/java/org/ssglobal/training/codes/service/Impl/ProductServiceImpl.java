@@ -27,6 +27,16 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
+	public List<Product> selectAllProductsByCategory(Integer categoryId) {
+		return productRepository.selectAllProductsByCategory(categoryId);
+	}
+	
+	@Override
+	public List<Product> selectProductsByName(String search) {
+		return productRepository.selectProductsByName(search);
+	}
+	
+	@Override
 	public Product selectProduct(Integer productId) {
 		return productRepository.selectProduct(productId);
 	}

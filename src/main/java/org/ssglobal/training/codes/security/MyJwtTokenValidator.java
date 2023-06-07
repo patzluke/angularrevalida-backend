@@ -44,6 +44,7 @@ public class MyJwtTokenValidator extends OncePerRequestFilter {
 			if (!validateToken(token)) {
 				response.sendError(HttpStatus.UNAUTHORIZED.value(), "not ok");
 			}
+			
 			filterChain.doFilter(request, response);
 		} catch (NullPointerException e) {
 			response.sendError(HttpStatus.UNAUTHORIZED.value(), "not ok");
@@ -58,6 +59,7 @@ public class MyJwtTokenValidator extends OncePerRequestFilter {
 		return request.getRequestURI().equals("/api/users/authenticate") || 
 			   request.getRequestURI().equals("/api/users/insert") ||
 			   request.getRequestURI().equals("/api/interests/get") ||
+			   request.getRequestURI().contains("/api/images/") ||
 			   request.getRequestURI().equals("/api/users/update/password");
 	}
 

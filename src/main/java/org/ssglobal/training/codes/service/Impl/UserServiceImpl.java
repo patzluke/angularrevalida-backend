@@ -48,6 +48,11 @@ public class UserServiceImpl implements UserService {
 	public Users selectUser(Integer userId) {
 		return userRepository.selectUser(userId);
 	}
+	
+	@Override
+	public List<Users> selectUserByName(String search) {
+		return userRepository.selectUserByName(search);
+	}
 
 	@Override
 	public Users insertUser(Users user) {
@@ -89,7 +94,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public String generateToken(Integer userId, String username, String userType) {
+	public String generateToken(Integer userId, String username, String userType, Boolean isActive) {
 		KeyGenerator keyGenerator = null;
 		try {
 			keyGenerator = KeyGenerator.getInstance("HmacSHA256");
@@ -101,8 +106,9 @@ public class UserServiceImpl implements UserService {
 							  .claim("userId", userId)
 							  .claim("username", username)
 							  .claim("userType", userType)
+							  .claim("isActive", isActive)
 							  .setIssuedAt(new Date())
-							  .setExpiration(Date.from(LocalDateTime.now().plusMinutes(10L).atZone(ZoneId.systemDefault()).toInstant()))
+							  .setExpiration(Date.from(LocalDateTime.now().plusMinutes(30L).atZone(ZoneId.systemDefault()).toInstant()))
 							  .signWith(key, SignatureAlgorithm.HS256)
 							  .compact();
 		if (userTokenRepository.isUserTokenIdExists(userId)) {
