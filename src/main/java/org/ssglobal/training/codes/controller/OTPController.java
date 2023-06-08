@@ -26,7 +26,6 @@ public class OTPController {
 	
 	@Autowired
 	private UserService userService;
-
 	@PostMapping(value = "/validate", consumes = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<String> createUser(@RequestBody Map<String, Object> payload) {
 		Otp otp = otpService.selectOtp(Integer.parseInt(payload.get("userId").toString()));
