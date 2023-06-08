@@ -27,4 +27,9 @@ public class OTPServiceImpl implements OTPService {
 	public Otp selectOtp(Integer userId) {
 		return otpRepository.selectOtp(userId);
 	}
+	
+	@Override
+	public boolean deleteOtp(Integer otpId) {
+		return otpRepository.deleteOtp(otpId);
+	}
 }

@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProductRepository {
 	private final org.ssglobal.training.codes.tables.Product PRODUCT = org.ssglobal.training.codes.tables.Product.PRODUCT;
-	
+
 	@Autowired
 	private final DSLContext dslContext;
 	

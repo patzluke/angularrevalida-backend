@@ -39,11 +39,12 @@ public class OTPController {
 					}
 					userService.changeCustomerActiveStatus(true, 
 								Integer.parseInt(payload.get("userId").toString()));
+					otpService.deleteOtp(otp.getOtpId());
 					return ResponseEntity.ok("true");
 				}
-				return ResponseEntity.badRequest().build();
+				return ResponseEntity.badRequest().body("wrong token");
 			}
-			return ResponseEntity.badRequest().build();
+			return ResponseEntity.badRequest().body("wrong token");
 		} catch (Exception e) {
 			return ResponseEntity.internalServerError().build();
 		}

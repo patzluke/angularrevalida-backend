@@ -102,7 +102,7 @@ public class UserController {
 						Regards,
 						Jobilee
 						""".formatted(createdOtp.getOtpCode()));
-				String emailresponse = emailService.sendSimpleMail(emailDetails);
+				emailService.sendSimpleMail(emailDetails);
 				return ResponseEntity.ok(getNewUser);
 			}
 		} catch (Exception e) {
@@ -138,6 +138,7 @@ public class UserController {
 	public ResponseEntity changeCustomerActiveStatus(@RequestBody Map<String, Object> payload) {
 		return userService.changeCustomerActiveStatus(Boolean.parseBoolean(payload.get("isActive").toString()), 
 											  Integer.parseInt(payload.get("userId").toString())) 
+				
 				? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
 	}
 	

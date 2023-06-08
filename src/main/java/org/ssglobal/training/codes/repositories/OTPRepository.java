@@ -28,4 +28,12 @@ public class OTPRepository {
 	public Otp selectOtp(Integer userId) {
 		return dslContext.selectFrom(OTP).where(OTP.USER_ID.eq(userId)).fetchOneInto(Otp.class);
 	}
+	
+	public boolean deleteOtp(Integer otpId) {
+		if (dslContext.delete(OTP).where(OTP.OTP_ID.eq(otpId)).execute() == 1) {
+			return true;
+		}
+		return false;
+	}
+	
 }
