@@ -63,8 +63,19 @@ create table product (
 	price float,
 	category_id int,
 	sales int default 0,
-	image varchar(200),
+	image varchar(100),
 	foreign key(category_id) references category(category_id) on delete cascade
+);
+
+drop table if exists cart;
+create table cart (
+	user_id int,
+	product_id int,
+	quantity int,
+	total_product_price float,
+	image varchar(100),
+	foreign key(user_id) references users(user_id) on delete cascade,
+	foreign key(product_id) references product(product_id) on delete cascade
 );
 
 --create extension pgcrypto;

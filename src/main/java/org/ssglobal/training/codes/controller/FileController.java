@@ -38,7 +38,7 @@ public class FileController {
 		try {
 			fileName = fileStorageService.storeFile(file);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.info(e.getMessage());
 		}
 
 		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/downloadFile/")
@@ -59,7 +59,7 @@ public class FileController {
 		try {
 			resource = fileStorageService.loadFileAsResource(fileName);
 		} catch (Exception e) {
-			log.info(e.getMessage());
+			
 		}
 		
 		// Try to determine file's content type
@@ -68,6 +68,8 @@ public class FileController {
 			contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
 		} catch (IOException ex) {
 			log.info("Could not determine file type.");
+		} catch (NullPointerException e) {
+			log.info(e.getMessage());
 		}
 
 		// Fallback to the default content type if type could not be determined
@@ -75,8 +77,15 @@ public class FileController {
 			contentType = "application/octet-stream";
 		}
 
-		return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType))
-				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-				.body(resource);
+		if (resource != null && contentType != null) {
+			try {
+				return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType))
+						.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+						.body(resource);
+			} catch (Exception e) {
+				log.info(e.getMessage());
+			}
+		}
+		return ResponseEntity.notFound().build();
 	}
 }

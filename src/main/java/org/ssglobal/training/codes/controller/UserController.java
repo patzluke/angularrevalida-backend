@@ -94,14 +94,14 @@ public class UserController {
 				emailDetails.setRecipient(newUser.getEmail());
 				emailDetails.setSubject("OTP Verification");
 				emailDetails.setMsgBody("""
-						Hi,
+						Hi %s,
 						Thank you for choosing our restaurant. Use The Otp below to complete the procedures.
 						It is valid for only 5 minutes!
 						The verification code is: %s
 						
 						Regards,
 						Jobilee
-						""".formatted(createdOtp.getOtpCode()));
+						""".formatted(newUser.getFirstName(), createdOtp.getOtpCode()));
 				emailService.sendSimpleMail(emailDetails);
 				return ResponseEntity.ok(getNewUser);
 			}
