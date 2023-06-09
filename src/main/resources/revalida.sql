@@ -43,6 +43,7 @@ create table otp (
 	issued_time time,
 	expiry_time time,
 	otp_code varchar(10),
+	tries int,
 	foreign key(user_id) references users(user_id) on delete cascade
 );
 

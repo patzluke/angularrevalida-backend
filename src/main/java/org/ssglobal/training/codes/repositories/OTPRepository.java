@@ -21,6 +21,14 @@ public class OTPRepository {
 						 .set(OTP.ISSUED_TIME, otp.getIssuedTime())
 						 .set(OTP.EXPIRY_TIME, otp.getExpiryTime())
 						 .set(OTP.OTP_CODE, otp.getOtpCode())
+						 .set(OTP.TRIES, otp.getTries())
+						 .returning(OTP.OTP_ID, OTP.USER_ID, OTP.ISSUED_TIME, OTP.EXPIRY_TIME, OTP.OTP_CODE)
+						 .fetchOneInto(Otp.class);
+	}
+	
+	public Otp updateOTP(Otp otp) {
+		return dslContext.update(OTP)
+						 .set(OTP.TRIES, otp.getTries())
 						 .returning(OTP.OTP_ID, OTP.USER_ID, OTP.ISSUED_TIME, OTP.EXPIRY_TIME, OTP.OTP_CODE)
 						 .fetchOneInto(Otp.class);
 	}

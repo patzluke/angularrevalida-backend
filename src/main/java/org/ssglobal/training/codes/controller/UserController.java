@@ -87,7 +87,7 @@ public class UserController {
 			LocalTime issuedTime = LocalTime.now();
 			LocalTime expiryTime = issuedTime.plusMinutes(5);
 	        String sixRandomNumber = RandomStringUtils.randomNumeric(6);
-	        Otp otp = new Otp(null, getNewUser.getUserId(), issuedTime, expiryTime, sixRandomNumber);
+	        Otp otp = new Otp(null, getNewUser.getUserId(), issuedTime, expiryTime, sixRandomNumber, 0);
 			Otp createdOtp = otpService.createOTP(otp);
 			if (otp != null) {
 				EmailDetails emailDetails = new EmailDetails();

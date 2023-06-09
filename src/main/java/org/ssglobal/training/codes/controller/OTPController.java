@@ -41,6 +41,12 @@ public class OTPController {
 					otpService.deleteOtp(otp.getOtpId());
 					return ResponseEntity.ok("true");
 				}
+				otp.setTries(otp.getTries() + 1);
+				otpService.updateOTP(otp);
+				if (otp.getTries() > 3) {
+					userService.deleteUserById(Integer.parseInt(payload.get("userId").toString()));
+					return ResponseEntity.badRequest().body("many retries");
+				}
 				return ResponseEntity.badRequest().body("wrong token");
 			}
 			return ResponseEntity.badRequest().body("wrong token");

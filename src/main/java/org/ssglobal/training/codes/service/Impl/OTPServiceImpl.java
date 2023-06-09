@@ -32,4 +32,9 @@ public class OTPServiceImpl implements OTPService {
 	public boolean deleteOtp(Integer otpId) {
 		return otpRepository.deleteOtp(otpId);
 	}
+	
+	@Override
+	public Otp updateOTP(Otp otp) {
+		return otpRepository.updateOTP(otp);
+	}
 }
