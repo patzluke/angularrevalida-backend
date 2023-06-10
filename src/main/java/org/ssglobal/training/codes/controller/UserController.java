@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.ssglobal.training.codes.models.EmailDetails;
-import org.ssglobal.training.codes.service.EmailService;
 import org.ssglobal.training.codes.service.ListOfInterestService;
 import org.ssglobal.training.codes.service.OTPService;
 import org.ssglobal.training.codes.service.UserService;
@@ -30,11 +29,8 @@ import org.ssglobal.training.codes.tables.pojos.ListOfInterest;
 import org.ssglobal.training.codes.tables.pojos.Otp;
 import org.ssglobal.training.codes.tables.pojos.Users;
 
-import lombok.extern.log4j.Log4j2;
-
 @RestController
 @RequestMapping(value = "/api/users")
-@Log4j2
 public class UserController {
 
 	@Autowired

@@ -4,7 +4,6 @@ import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.ssglobal.training.codes.tables.pojos.Otp;
-import org.ssglobal.training.codes.tables.pojos.Users;
 
 @Repository
 public class OTPRepository {

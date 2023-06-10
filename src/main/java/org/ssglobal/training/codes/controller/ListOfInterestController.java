@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.ssglobal.training.codes.service.ListOfInterestService;
 
-import lombok.extern.log4j.Log4j2;
-
 @RestController
 @RequestMapping(value = "/api/interests")
 public class ListOfInterestController {
