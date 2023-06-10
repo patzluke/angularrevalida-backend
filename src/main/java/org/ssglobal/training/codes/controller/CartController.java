@@ -56,7 +56,19 @@ public class CartController {
 	
 	@SuppressWarnings("rawtypes")
 	@DeleteMapping(value = "/delete/{productId}")
-	public ResponseEntity deleteUserById(@PathVariable(name = "productId") Integer productId) {
+	public ResponseEntity deleteProductUserById(@PathVariable(name = "productId") Integer productId) {
 		return cartService.deleteSelectedProductInCart(productId) ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@DeleteMapping(value = "/delete/user/{userId}")
+	public ResponseEntity deleteCartUserById(@PathVariable(name = "userId") Integer userId) {
+		try {
+			cartService.deleteSelectedUsersCart(userId);
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ResponseEntity.badRequest().build();
 	}
 }

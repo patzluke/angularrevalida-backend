@@ -79,6 +79,29 @@ create table cart (
 	foreign key(product_id) references product(product_id) on delete cascade
 );
 
+drop table if exists orders;
+create table orders (
+	order_id serial primary key,
+	user_id int,
+	total_price float,
+	created_at timestamp,
+	status varchar(20) default 'Pending',
+	foreign key(user_id) references users(user_id) on delete cascade
+);
+
+drop table if exists order_details;
+create table order_details (
+	order_id int,
+	user_id int,
+	product_id int,
+	quantity int,
+	total_product_price float,
+	image varchar(100),
+	foreign key(user_id) references users(user_id) on delete cascade,
+	foreign key(product_id) references product(product_id) on delete cascade,
+	foreign key(order_id) references orders(order_id) on delete cascade
+);
+
 --create extension pgcrypto;
 
 insert into category(category_name, image) values ('Best Sellers', 'best-seller-orange.png');
@@ -94,23 +117,24 @@ insert into category(category_name, image) values ('Soups', 'food-5.jpg');
 insert into category(category_name, image) values ('Vegetarian', 'food-6.jpg');
 
 
-insert into product(product_name, product_details, ingredients, quantity, price, category_id)
-values ('ChickenJoy', '1 pc. Chicken with rice, fries and Drinks', 'chicken, potato, rice', 100, 109.00, 1);
+insert into product(product_name, product_details, ingredients, quantity, price, category_id, image)
+values ('ChickenJoy', '1 pc. Chicken with rice, fries and Drinks', 'chicken, potato, rice', 100, 109.00, 1, 'food-2.jpg');
 
-insert into product(product_name, product_details, ingredients, quantity, price, category_id)
-values ('Burger Meal', '1 pc. Cheese Burger, fries and Drinks', 'cheese, potato, patty', 100, 102.00, 2);
+insert into product(product_name, product_details, ingredients, quantity, price, category_id, image)
+values ('Burger Meal', '1 pc. Cheese Burger, fries and Drinks', 'cheese, potato, patty', 100, 102.00, 2, 'food-3.jpg');
 
-insert into product(product_name, product_details, ingredients, quantity, price, category_id)
-values ('Pizza Meal','1 pc. Pizza, fries and Drinks', 'cheese, potato, dough', 100, 178.00, 1);
+insert into product(product_name, product_details, ingredients, quantity, price, category_id, image)
+values ('Pizza Meal','1 pc. Pizza, fries and Drinks', 'cheese, potato, dough', 100, 178.00, 1, 'food-1.jpg');
 
-insert into product(product_name, product_details, ingredients, quantity, price, category_id)
-values ('Pizza Meal Large','1 pc. 20inch Pizza', 'cheese, potato, dough', 100, 560.00, 4);
+insert into product(product_name, product_details, ingredients, quantity, price, category_id, image)
+values ('Pizza Meal Large','1 pc. 20inch Pizza', 'cheese, potato, dough', 100, 560.00, 4, 'food-6.jpg');
 
-insert into product(product_name, product_details, ingredients, quantity, price, category_id)
-values ('Pizza Folat','1 pc. 5inch Pizza with ice cream on top', 'cheese, potato, dough, ice cream', 100, 95.00, 5);
+insert into product(product_name, product_details, ingredients, quantity, price, category_id, image)
+values ('Pizza Folat','1 pc. 5inch Pizza with ice cream on top', 'cheese, potato, dough, ice cream', 100, 95.00, 5, 'food-1.jpg');
 
-insert into product(product_name, product_details, ingredients, quantity, price, category_id)
-values ('Pizza','1 pc. 10inch Pizza', 'cheese, potato, dough, ice cream', 100, 95.00, 6);
+insert into product(product_name, product_details, ingredients, quantity, price, category_id, image)
+values ('Salty Fries', 'Medium Fries', 'potato, catsup', 100, 65.00, 6, 'food-4.jpg');
+
 
 insert into users(username, password, first_name, middle_name, last_name, email, address, contact_no, birth_date, user_type, is_active) 
 values('pastrero', '123456', initcap('patrick luke'), initcap('artuz'), initcap('astrero'), initcap('patzluke@gmail.com'), 'Merida Vista Verde Cainta', '9055261296', '2015-07-25', initcap('Admin'), true);
