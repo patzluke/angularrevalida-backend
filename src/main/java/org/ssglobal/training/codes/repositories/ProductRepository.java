@@ -32,6 +32,14 @@ public class ProductRepository {
 		return products;
 	}
 	
+	public List<Product> selectAllProductsByPriceRange(Double minRange, Double maxRange) {
+		List<Product> products = dslContext.selectFrom(PRODUCT)
+										   .where(PRODUCT.PRICE.between(minRange, maxRange)
+										   )
+										   .fetchInto(Product.class);
+		return products;
+	}
+	
 	public List<Product> selectAllProductsByPriceRange(Double minRange, Double maxRange, Integer categoryId) {
 		List<Product> products = dslContext.selectFrom(PRODUCT)
 										   .where(PRODUCT.PRICE.between(minRange, maxRange)

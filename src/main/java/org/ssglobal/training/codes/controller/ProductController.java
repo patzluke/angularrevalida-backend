@@ -42,6 +42,9 @@ public class ProductController {
 	public ResponseEntity<List<Product>> selectAllProductsByPriceRange(@RequestParam(name = "minRange") Double minRange,
 																	   @RequestParam(name = "maxRange") Double maxRange,
 																	   @RequestParam(name = "categoryId") Integer categoryId) {
+		if (categoryId == 0) {
+			return new ResponseEntity<>(productService.selectAllProductsByPriceRange(minRange, maxRange), HttpStatus.OK);
+		}
 		return new ResponseEntity<>(productService.selectAllProductsByPriceRange(minRange, maxRange, categoryId), HttpStatus.OK);
 	}
 	
