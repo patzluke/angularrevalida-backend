@@ -1,7 +1,6 @@
 package org.ssglobal.training.codes.service.Impl;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -21,7 +20,7 @@ public class CartServiceImpl implements CartService {
 	private final CartRepository cartRepository;
 
 	@Override
-	public List<Map<String, Object>> selectCartByUser(Integer userId) {
+	public List<Cart> selectCartByUser(Integer userId) {
 		return cartRepository.selectCartByUser(userId);
 	}
 
@@ -36,8 +35,8 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public boolean deleteSelectedProductInCart(Integer productId) {
-		return cartRepository.deleteSelectedProductInCart(productId);
+	public boolean deleteSelectedProductInCart(Cart cart) {
+		return cartRepository.deleteSelectedProductInCart(cart);
 	}
 
 	@Override

@@ -1,7 +1,6 @@
 package org.ssglobal.training.codes.repositories;
 
 import java.util.List;
-import java.util.Map;
 
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,18 +15,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CartRepository {
 	private final org.ssglobal.training.codes.tables.Cart CART = org.ssglobal.training.codes.tables.Cart.CART;
-	private final org.ssglobal.training.codes.tables.Product PRODUCT = org.ssglobal.training.codes.tables.Product.PRODUCT;
 
 	@Autowired
 	private final DSLContext dslContext;
 	
-	public List<Map<String, Object>> selectCartByUser(Integer userId) {
-		return dslContext.select(CART.USER_ID.as("userId"), CART.PRODUCT_ID.as("productId"), CART.QUANTITY.as("quantity"), 
-								 CART.TOTAL_PRODUCT_PRICE.as("totalProductPrice"), CART.IMAGE.as("image"), PRODUCT.PRICE.as("price"),
-								 PRODUCT.PRODUCT_NAME.as("productName"))
-								 .from(CART.innerJoin(PRODUCT).on(CART.PRODUCT_ID.eq(PRODUCT.PRODUCT_ID)))
-								 .where(CART.USER_ID.eq(userId))
-								 .fetchMaps();
+	public List<Cart> selectCartByUser(Integer userId) {
+		return dslContext.selectFrom(CART).where(CART.USER_ID.eq(userId))
+				.fetchInto(Cart.class);
 	}
 	
 	public Cart insertCart(Cart product) {
@@ -35,6 +29,9 @@ public class CartRepository {
 				  .set(CART.USER_ID, product.getUserId())
 				  .set(CART.PRODUCT_ID, product.getProductId())
 				  .set(CART.QUANTITY, product.getQuantity())
+				  .set(CART.PRICE, product.getPrice())
+				  .set(CART.PRODUCT_NAME, product.getProductName())
+				  .set(CART.VARIATION, product.getVariation())
 				  .set(CART.TOTAL_PRODUCT_PRICE, product.getTotalProductPrice())
 				  .set(CART.IMAGE, product.getImage())
 				  .returning(CART.USER_ID, CART.PRODUCT_ID, CART.QUANTITY, 
@@ -47,15 +44,21 @@ public class CartRepository {
 				 					   .set(CART.USER_ID, product.getUserId())
 				 					   .set(CART.PRODUCT_ID, product.getProductId())
 				 					   .set(CART.QUANTITY, product.getQuantity())
+				 					   .set(CART.PRICE, product.getPrice())
+				 					   .set(CART.PRODUCT_NAME, product.getProductName())
+				 					   .set(CART.VARIATION, product.getVariation())
 				 					   .set(CART.TOTAL_PRODUCT_PRICE, product.getTotalProductPrice())
 				 					   .set(CART.IMAGE, product.getImage())
-									   .where(CART.PRODUCT_ID.eq(product.getProductId()))
-									   .execute() == 1;
+									   .where(CART.PRODUCT_ID.eq(product.getProductId())
+									   .and(CART.CART_ID.eq(product.getCartId()))
+									   ).execute() == 1;
 		return updateUser ? true : false;	
 	}
 	
-	public boolean deleteSelectedProductInCart(Integer productId) {
-		if (dslContext.delete(CART).where(CART.PRODUCT_ID.eq(productId)).execute() == 1) {
+	public boolean deleteSelectedProductInCart(Cart cart) {
+		if (dslContext.delete(CART).where(CART.PRODUCT_ID.eq(cart.getProductId())
+								   .and(CART.CART_ID.eq(cart.getCartId()))
+								   ).execute() == 1) {
 			return true;
 		}
 		return false;

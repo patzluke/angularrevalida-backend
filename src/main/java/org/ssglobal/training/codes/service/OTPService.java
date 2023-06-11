@@ -7,5 +7,6 @@ public interface OTPService {
 	Otp createOTP(Otp otp);
 	Otp selectOtp(Integer userId);
 	boolean deleteOtp(Integer otpId);
+	Otp resendOTP(Otp otp);
 	Otp updateOTP(Otp otp);
 }

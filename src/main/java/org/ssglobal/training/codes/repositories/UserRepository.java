@@ -54,7 +54,7 @@ public class UserRepository {
 				  .set(USERS.BIRTH_DATE, user.getBirthDate())
 				  .set(USERS.USER_TYPE, user.getUserType())
 				  .set(USERS.IS_ACTIVE, user.getIsActive())
-				  .returning(USERS.USER_ID)
+				  .returning(USERS.USER_ID, USERS.EMAIL)
 				  .fetchOneInto(Users.class);
 	}
 	
@@ -90,10 +90,9 @@ public class UserRepository {
 	}
 	
 	public Users searchUserByEmailAndPass(Map<String, String> parameter) {
-		Users user = dslContext.select(USERS.USER_ID, USERS.EMAIL, USERS.PASSWORD, USERS.USER_TYPE, USERS.IS_ACTIVE)
+		Users user = dslContext.select(USERS.USER_ID, USERS.USERNAME, USERS.PASSWORD, USERS.USER_TYPE, USERS.IS_ACTIVE)
 											  .from(USERS)
-				   							  .where(USERS.USERNAME.eq(parameter.get("username"))
-				   							  )
+				   							  .where(USERS.USERNAME.eq(parameter.get("username")))
 				   							  .fetchOneInto(Users.class);
 		return user;
 	}

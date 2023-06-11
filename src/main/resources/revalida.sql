@@ -40,6 +40,7 @@ drop table if exists otp;
 create table otp (
 	otp_id serial,
 	user_id int,
+    email varchar(70) unique,
 	issued_time time,
 	expiry_time time,
 	otp_code varchar(10),
@@ -70,9 +71,13 @@ create table product (
 
 drop table if exists cart;
 create table cart (
+    cart_id serial primary key,
 	user_id int,
 	product_id int,
 	quantity int,
+	price float,
+	product_name varchar(50),
+	variation varchar(50),
 	total_product_price float,
 	image varchar(100),
 	foreign key(user_id) references users(user_id) on delete cascade,

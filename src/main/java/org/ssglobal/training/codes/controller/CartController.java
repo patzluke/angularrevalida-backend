@@ -1,7 +1,6 @@
 package org.ssglobal.training.codes.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.ssglobal.training.codes.service.CartService;
 import org.ssglobal.training.codes.tables.pojos.Cart;
@@ -29,8 +30,8 @@ public class CartController {
 	private CartService cartService;
 
 	@GetMapping(value = "/get/{userId}")
-	public ResponseEntity<List<Map<String, Object>>> selectCartByUser(@PathVariable(name = "userId") Integer userId) {
-		List<Map<String, Object>> cartList = cartService.selectCartByUser(userId);
+	public ResponseEntity<List<Cart>> selectCartByUser(@PathVariable(name = "userId") Integer userId) {
+		List<Cart> cartList = cartService.selectCartByUser(userId);
 		return !cartList.isEmpty() ? new ResponseEntity<>(cartList, HttpStatus.OK) : ResponseEntity.notFound().build();
 	}
 	
@@ -55,9 +56,21 @@ public class CartController {
 	}
 	
 	@SuppressWarnings("rawtypes")
-	@DeleteMapping(value = "/delete/{productId}")
-	public ResponseEntity deleteProductUserById(@PathVariable(name = "productId") Integer productId) {
-		return cartService.deleteSelectedProductInCart(productId) ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
+	@DeleteMapping(value = "/delete")
+	public ResponseEntity deleteProductUserById(@RequestParam(name = "cartId") Integer cartId,
+												@RequestParam(name = "productId") Integer productId,
+												@RequestParam(name = "quantity") Integer quantity,
+												@RequestParam(name = "variation") String variation) {
+		Cart cart = new Cart(cartId, null, productId, quantity, null, null, variation, null, null);
+		try {
+			if (cartService.deleteSelectedProductInCart(cart)) {
+				return ResponseEntity.ok().build();
+			}
+			return ResponseEntity.badRequest().body("hey");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ResponseEntity.internalServerError().build();
 	}
 	
 	@SuppressWarnings("rawtypes")

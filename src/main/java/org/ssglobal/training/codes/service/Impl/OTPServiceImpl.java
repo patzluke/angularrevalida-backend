@@ -34,6 +34,11 @@ public class OTPServiceImpl implements OTPService {
 	}
 	
 	@Override
+	public Otp resendOTP(Otp otp) {
+		return otpRepository.resendOTP(otp);
+	}
+	
+	@Override
 	public Otp updateOTP(Otp otp) {
 		return otpRepository.updateOTP(otp);
 	}

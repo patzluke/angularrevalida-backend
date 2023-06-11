@@ -83,15 +83,16 @@ public class UserController {
 			LocalTime issuedTime = LocalTime.now();
 			LocalTime expiryTime = issuedTime.plusMinutes(5);
 	        String sixRandomNumber = RandomStringUtils.randomNumeric(6);
-	        Otp otp = new Otp(null, getNewUser.getUserId(), issuedTime, expiryTime, sixRandomNumber, 0);
+	        Otp otp = new Otp(null, getNewUser.getUserId(), getNewUser.getEmail(), issuedTime, 
+	        				  expiryTime, sixRandomNumber, 0);
 			Otp createdOtp = otpService.createOTP(otp);
 			if (otp != null) {
 				EmailDetails emailDetails = new EmailDetails();
-				emailDetails.setRecipient(newUser.getEmail());
+				emailDetails.setRecipient(otp.getEmail());
 				emailDetails.setSubject("OTP Verification");
 				emailDetails.setMsgBody("""
 						Hi %s,
-						Thank you for choosing our restaurant. Use The Otp below to complete the procedures.
+						Thank you for choosing our restaurant. Use The Otp below to complete the procedure.
 						It is valid for only 5 minutes!
 						The verification code is: %s
 						
@@ -107,11 +108,15 @@ public class UserController {
 		return ResponseEntity.internalServerError().build();
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PostMapping(value = "/authenticate", consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<Object>> authenticate(@RequestBody Map<String, String> payload) {
 		Users authenticatedUser = userService.searchUserByEmailAndPass(payload);
 		if (authenticatedUser != null) {
+			if (authenticatedUser.getIsActive().booleanValue() == false) {
+				return new ResponseEntity(null, HttpStatus.FORBIDDEN);
+			}
 			List<Object> usertoken = new ArrayList<>();
 			String token = userService.generateToken(authenticatedUser.getUserId(), 
 													 authenticatedUser.getUsername(), 
