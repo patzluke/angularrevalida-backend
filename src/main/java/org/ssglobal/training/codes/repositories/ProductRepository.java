@@ -32,6 +32,14 @@ public class ProductRepository {
 		return products;
 	}
 	
+	public List<Product> selectAllProductsByPriceRange(Double minRange, Double maxRange, Integer categoryId) {
+		List<Product> products = dslContext.selectFrom(PRODUCT)
+										   .where(PRODUCT.PRICE.between(minRange, maxRange)
+										   .and(PRODUCT.CATEGORY_ID.eq(categoryId)))
+										   .fetchInto(Product.class);
+		return products;
+	}
+	
 	public List<Product> selectProductsByName(String search) {
 		return dslContext.selectFrom(PRODUCT)
 						 .where(PRODUCT.PRODUCT_NAME.likeIgnoreCase(DSL.concat("%", search, "%")))

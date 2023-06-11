@@ -38,6 +38,13 @@ public class ProductController {
 		return new ResponseEntity<>(productService.selectAllProductsByCategory(categoryId), HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "/get/pricerange")
+	public ResponseEntity<List<Product>> selectAllProductsByPriceRange(@RequestParam(name = "minRange") Double minRange,
+																	   @RequestParam(name = "maxRange") Double maxRange,
+																	   @RequestParam(name = "categoryId") Integer categoryId) {
+		return new ResponseEntity<>(productService.selectAllProductsByPriceRange(minRange, maxRange, categoryId), HttpStatus.OK);
+	}
+	
 	@GetMapping(value = "/get/search")
 	public ResponseEntity<List<Product>> selectUserByName(@RequestParam(name = "name") String name) {
 		return new ResponseEntity<>(productService.selectProductsByName(name), HttpStatus.OK);

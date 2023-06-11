@@ -8,6 +8,7 @@ public interface ProductService {
 
 	List<Product> selectAllProducts();
 	List<Product> selectAllProductsByCategory(Integer categoryId);
+	List<Product> selectAllProductsByPriceRange(Double minRange, Double maxRange, Integer categoryId);
 	List<Product> selectProductsByName(String search);
 	Product selectProduct(Integer productId);
 	Product insertProduct(Product product);

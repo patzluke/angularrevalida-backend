@@ -33,6 +33,11 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
+	public List<Product> selectAllProductsByPriceRange(Double minRange, Double maxRange, Integer categoryId) {
+		return productRepository.selectAllProductsByPriceRange(minRange, maxRange, categoryId);
+	}
+	
+	@Override
 	public List<Product> selectProductsByName(String search) {
 		return productRepository.selectProductsByName(search);
 	}
