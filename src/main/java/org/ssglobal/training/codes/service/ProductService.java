@@ -14,5 +14,6 @@ public interface ProductService {
 	Product selectProduct(Integer productId);
 	Product insertProduct(Product product);
 	boolean updateProduct(Product product);
+	boolean updateProductQuantity(Product product);
 	boolean deleteProductById(Integer productId);
 }

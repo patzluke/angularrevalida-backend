@@ -63,6 +63,11 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
+	public boolean updateProductQuantity(Product product) {
+		return productRepository.updateProductQuantity(product);
+	}
+	
+	@Override
 	public boolean deleteProductById(Integer productId) {
 		return productRepository.deleteProductById(productId);
 	}

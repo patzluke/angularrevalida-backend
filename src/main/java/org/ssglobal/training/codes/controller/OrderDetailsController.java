@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.ssglobal.training.codes.service.CartService;
 import org.ssglobal.training.codes.service.OrderDetailsService;
-
+import org.ssglobal.training.codes.service.ProductService;
 import org.ssglobal.training.codes.tables.pojos.OrderDetails;
+import org.ssglobal.training.codes.tables.pojos.Product;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -30,6 +31,9 @@ public class OrderDetailsController {
 	
 	@Autowired
 	private CartService cartService;
+	
+	@Autowired
+	private ProductService productService;
 
 	@GetMapping(value = "/get/{userId}")
 	public ResponseEntity<List<OrderDetails>> selectOrderDetailsByUser(@PathVariable(name = "userId") Integer userId) {
@@ -44,7 +48,11 @@ public class OrderDetailsController {
 			if (!orderDetails.isEmpty()) {
 				Integer userId = orderDetails.get(0).getUserId();
 				orderDetails.forEach((orderDetail) -> {
-					orderDetailsService.insertOrderDetails(orderDetail);					
+					orderDetailsService.insertOrderDetails(orderDetail);
+					Product productQuantityUpdate =  productService.selectProduct(orderDetail.getProductId());
+					productQuantityUpdate.setQuantity(productQuantityUpdate.getQuantity() - orderDetail.getQuantity());
+					productQuantityUpdate.setSales(productQuantityUpdate.getSales() + orderDetail.getQuantity());
+					productService.updateProductQuantity(productQuantityUpdate);
 				});
 				cartService.deleteSelectedUsersCart(userId);
 				return ResponseEntity.ok().build();

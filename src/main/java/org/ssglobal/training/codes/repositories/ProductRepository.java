@@ -88,6 +88,16 @@ public class ProductRepository {
 		return updateUser ? true : false;	
 	}
 	
+	public boolean updateProductQuantity(Product product) {
+		boolean updateUser = dslContext.update(PRODUCT)
+									   .set(PRODUCT.QUANTITY, product.getQuantity())
+									   .set(PRODUCT.SALES, product.getSales())
+									   .where(PRODUCT.PRODUCT_ID.eq(product.getProductId()))
+									   .execute() == 1;
+	
+		return updateUser ? true : false;	
+	}
+	
 	public boolean deleteProductById(Integer productId) {
 		if (dslContext.delete(PRODUCT).where(PRODUCT.PRODUCT_ID.eq(productId)).execute() == 1) {
 			return true;
