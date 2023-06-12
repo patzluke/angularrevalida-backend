@@ -113,6 +113,7 @@ create table order_details (
 
 insert into category(category_name, image) values ('Best Sellers', 'best-seller-orange.png');
 insert into category(category_name, image) values ('Value Meals', 'best-seller.png');
+insert into category(category_name, image) values ('Family Meals', 'best-seller.png');
 insert into category(category_name, image) values ('For Solo', 'best-seller.png');
 insert into category(category_name, image) values ('For the Barkada', 'best-seller-orange.png');
 insert into category(category_name, image) values ('New Products', 'best-seller.png');
