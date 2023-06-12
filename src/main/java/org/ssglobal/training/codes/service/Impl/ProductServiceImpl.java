@@ -22,6 +22,11 @@ public class ProductServiceImpl implements ProductService {
 	private final ProductRepository productRepository;
 	
 	@Override
+	public List<Product> selectTop5ProductsBysales() {
+		return productRepository.selectTop5ProductsBysales();
+	}
+	
+	@Override
 	public List<Product> selectAllProducts() {
 		return productRepository.selectAllProducts();
 	}

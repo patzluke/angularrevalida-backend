@@ -28,6 +28,11 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 
+	@GetMapping(value = "/get/top")
+	public ResponseEntity<List<Product>> selectTop5ProductsBysales() {
+		return new ResponseEntity<>(productService.selectTop5ProductsBysales(), HttpStatus.OK);
+	}
+	
 	@GetMapping(value = "/get")
 	public ResponseEntity<List<Product>> selectAllProducts() {
 		return new ResponseEntity<>(productService.selectAllProducts(), HttpStatus.OK);

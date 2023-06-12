@@ -1,4 +1,4 @@
-package org.ssglobal.training.codes.controller;
+	package org.ssglobal.training.codes.controller;
 
 import java.util.List;
 
@@ -35,9 +35,9 @@ public class OrderDetailsController {
 	@Autowired
 	private ProductService productService;
 
-	@GetMapping(value = "/get/{userId}")
-	public ResponseEntity<List<OrderDetails>> selectOrderDetailsByUser(@PathVariable(name = "userId") Integer userId) {
-		List<OrderDetails> cartList = orderDetailsService.selectOrderDetailsByUser(userId);
+	@GetMapping(value = "/get/{orderId}")
+	public ResponseEntity<List<OrderDetails>> selectOrderDetailsByUser(@PathVariable(name = "orderId") Integer orderId) {
+		List<OrderDetails> cartList = orderDetailsService.selectOrderDetailsByOrderId(orderId);
 		return !cartList.isEmpty() ? new ResponseEntity<>(cartList, HttpStatus.OK) : ResponseEntity.notFound().build();
 	}
 	

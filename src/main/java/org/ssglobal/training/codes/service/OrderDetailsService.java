@@ -6,7 +6,7 @@ import org.ssglobal.training.codes.tables.pojos.OrderDetails;
 
 public interface OrderDetailsService {
 	
-	List<OrderDetails> selectOrderDetailsByUser(Integer userId);
+	List<OrderDetails> selectOrderDetailsByOrderId(Integer orderId);
 	OrderDetails insertOrderDetails(OrderDetails orderDetails);
 	boolean deleteOrderDetailsByOrderId(Integer orderId);
 }

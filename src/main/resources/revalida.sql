@@ -100,6 +100,8 @@ create table order_details (
 	user_id int,
 	product_id int,
 	quantity int,
+	product_name varchar(50),
+	variation varchar(50),
 	total_product_price float,
 	image varchar(100),
 	foreign key(user_id) references users(user_id) on delete cascade,

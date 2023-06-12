@@ -19,9 +19,9 @@ public class OrderDetailsRepository {
 	@Autowired
 	private final DSLContext dslContext;
 	
-	public List<OrderDetails> selectOrderDetailsByUser(Integer userId) {
+	public List<OrderDetails> selectOrderDetailsByOrderId(Integer orderId) {
 		return dslContext.selectFrom(ORDERDETAILS)
-								 .where(ORDERDETAILS.USER_ID.eq(userId))
+								 .where(ORDERDETAILS.ORDER_ID.eq(orderId))
 								 .fetchInto(OrderDetails.class);
 	}
 	
@@ -31,6 +31,8 @@ public class OrderDetailsRepository {
 				  .set(ORDERDETAILS.USER_ID, orderDetails.getUserId())
 				  .set(ORDERDETAILS.PRODUCT_ID, orderDetails.getProductId())
 				  .set(ORDERDETAILS.QUANTITY, orderDetails.getQuantity())
+				  .set(ORDERDETAILS.PRODUCT_NAME, orderDetails.getProductName())
+				  .set(ORDERDETAILS.VARIATION, orderDetails.getVariation())
 				  .set(ORDERDETAILS.TOTAL_PRODUCT_PRICE, orderDetails.getTotalProductPrice())
 				  .set(ORDERDETAILS.IMAGE, orderDetails.getImage())
 				  .returning(ORDERDETAILS.USER_ID, ORDERDETAILS.PRODUCT_ID, ORDERDETAILS.QUANTITY, 

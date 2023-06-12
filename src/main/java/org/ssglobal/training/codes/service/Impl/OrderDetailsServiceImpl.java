@@ -22,8 +22,8 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 	private final OrderDetailsRepository orderDetailsRepository;
 
 	@Override
-	public List<OrderDetails> selectOrderDetailsByUser(Integer userId) {
-		return orderDetailsRepository.selectOrderDetailsByUser(userId);
+	public List<OrderDetails> selectOrderDetailsByOrderId(Integer orderId) {
+		return orderDetailsRepository.selectOrderDetailsByOrderId(orderId);
 	}
 
 	@Override

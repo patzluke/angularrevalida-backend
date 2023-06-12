@@ -6,6 +6,7 @@ import org.ssglobal.training.codes.tables.pojos.Product;
 
 public interface ProductService {
 
+	List<Product> selectTop5ProductsBysales();
 	List<Product> selectAllProducts();
 	List<Product> selectAllProductsByCategory(Integer categoryId);
 	List<Product> selectAllProductsByPriceRange(Double minRange, Double maxRange, Integer categoryId);

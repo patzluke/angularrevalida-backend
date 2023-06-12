@@ -20,6 +20,14 @@ public class ProductRepository {
 	@Autowired
 	private final DSLContext dslContext;
 	
+	public List<Product> selectTop5ProductsBysales() {
+		List<Product> products = dslContext.selectFrom(PRODUCT)
+										   .orderBy(PRODUCT.SALES.desc())
+										   .limit(5)
+										   .fetchInto(Product.class);
+		return products;
+	}
+	
 	public List<Product> selectAllProducts() {
 		List<Product> products = dslContext.selectFrom(PRODUCT).fetchInto(Product.class);
 		return products;
