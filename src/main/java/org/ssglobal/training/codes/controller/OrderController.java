@@ -44,7 +44,7 @@ public class OrderController {
 			}
 			return ResponseEntity.badRequest().build();
 		} catch (Exception e) {
-			log.info(e.getMessage());
+			e.printStackTrace();
 		}
 		return ResponseEntity.internalServerError().build();
 	}
