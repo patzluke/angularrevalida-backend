@@ -126,23 +126,37 @@ insert into category(category_name, image) values ('Vegetarian', 'food-6.jpg');
 
 
 insert into product(product_name, product_details, ingredients, quantity, price, category_id, image)
-values ('ChickenJoy', '1 pc. Chicken with rice, fries and Drinks', 'chicken, potato, rice', 100, 109.00, 1, 'food-2.jpg');
+values ('Saang Chicken', 'Chicken with rice, fries and Drinks', 'chicken, rice, potato', 1000, 109.00, 1, 'chicken_with_fries.jpg');
 
 insert into product(product_name, product_details, ingredients, quantity, price, category_id, image)
-values ('Burger Meal', '1 pc. Cheese Burger, fries and Drinks', 'cheese, potato, patty', 100, 102.00, 2, 'food-3.jpg');
+values ('Saang special spaghetti', 'Sweet and Creamy pasta meal', 'tomato sauce, pasta, special ingredient', 1000, 85.00, 2, 'Saang_special_spaghetti.jpg');
 
 insert into product(product_name, product_details, ingredients, quantity, price, category_id, image)
-values ('Pizza Meal','1 pc. Pizza, fries and Drinks', 'cheese, potato, dough', 100, 178.00, 1, 'food-1.jpg');
+values ('Saang Burger Meal', 'Cheese Burger with juicy meat patty', 'cheese, bread, patty', 1000, 99.00, 2, 'food-3.jpg');
 
 insert into product(product_name, product_details, ingredients, quantity, price, category_id, image)
-values ('Pizza Meal Large','1 pc. 20inch Pizza', 'cheese, potato, dough', 100, 560.00, 4, 'food-6.jpg');
+values ('whole roasted chicken','Special Roasted chicken with no need for sauce', '1 whole chicken', 1000, 480.00, 3, 'whole_roasted_chicken.jpg');
 
 insert into product(product_name, product_details, ingredients, quantity, price, category_id, image)
-values ('Pizza Folat','1 pc. 5inch Pizza with ice cream on top', 'cheese, potato, dough, ice cream', 100, 95.00, 5, 'food-1.jpg');
+values ('3 way roasted duck','Saang Special Roasted duck', '1 whole duck', 1000, 780.00, 3, '3_way_roasted_duck.jpg');
 
 insert into product(product_name, product_details, ingredients, quantity, price, category_id, image)
-values ('Salty Fries', 'Medium Fries', 'potato, catsup', 100, 65.00, 6, 'food-4.jpg');
+values ('Saang breakfast meal','Healthy and tasty fried rice with egg', 'egg, rice, mix of vegetables', 1000, 99.00, 4, 'Saang_breakfast_meal.jpg');
 
+insert into product(product_name, product_details, ingredients, quantity, price, category_id, image)
+values ('Heavy Burger','Special Meaty and heavy burger breakfast', 'patty, special sauce, bread', 1000, 99.00, 4, 'Heavy_Burger.jpg');
+
+insert into product(product_name, product_details, ingredients, quantity, price, category_id, image)
+values ('Pizza Barkada','Thin crust pizza with a mix of vegetable and meat', 'cheese, potato, dough', 1000, 560.00, 5, 'food-6.jpg');
+
+insert into product(product_name, product_details, ingredients, quantity, price, category_id, image)
+values ('Kahit Saang Nachos','Nachos with meat toppings and vegetables', 'nacho, cheese, vegetables', 1000, 310.00, 5, 'Kahit_Saang_Nachos.jpg');
+
+insert into product(product_name, product_details, ingredients, quantity, price, category_id, image)
+values ('The Pizza','Cheesy Pizza with ham', 'cheese, ham, dough', 1000, 178.00, 7, 'food-1.jpg');
+
+insert into product(product_name, product_details, ingredients, quantity, price, category_id, image)
+values ('Salty Fries', 'Your plain old clasic regular fries but better', 'potato, catsup', 1000, 65.00, 10, 'food-4.jpg');
 
 insert into users(username, password, first_name, middle_name, last_name, email, address, contact_no, birth_date, user_type, is_active) 
 values('pastrero', '123456', initcap('patrick luke'), initcap('artuz'), initcap('astrero'), initcap('patzluke@gmail.com'), 'Merida Vista Verde Cainta', '9055261296', '2015-07-25', initcap('Admin'), true);
