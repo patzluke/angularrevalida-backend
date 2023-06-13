@@ -105,7 +105,6 @@ create table order_details (
 	total_product_price float,
 	image varchar(100),
 	foreign key(user_id) references users(user_id) on delete cascade,
-	foreign key(product_id) references product(product_id) on delete cascade,
 	foreign key(order_id) references orders(order_id) on delete cascade
 );
 
@@ -160,7 +159,7 @@ values ('Salty Fries', 'Your plain old clasic regular fries but better', 'potato
 
 
 insert into users(username, password, first_name, middle_name, last_name, email, address, contact_no, birth_date, user_type, is_active) 
-values('pastrero', '123456', initcap('patrick luke'), initcap('artuz'), initcap('astrero'), initcap('patzluke@gmail.com'), 'Merida Vista Verde Cainta', '9055261296', '2015-07-25', initcap('Admin'), true);
+values('pastrero', '123456', initcap('patrick luke'), initcap('artuz'), initcap('astrero'), initcap('patzluke@gmail.com'), 'Merida Vista Verde Cainta', '9055261296', '2003-07-25', initcap('Admin'), true);
 
 insert into users(username, password, first_name, middle_name, last_name, email, address, contact_no, birth_date, user_type, is_active) 
-values('nikaastrero', '123456', initcap('nika ondria'), initcap('artuz'), initcap('astrero'), initcap('nika@gmail.com'), 'Merida Vista Verde Cainta', '9178192726', '2015-07-25', initcap('customer'), true);
+values('nikaastrero', '123456', initcap('nika ondria'), initcap('artuz'), initcap('astrero'), initcap('nika@gmail.com'), 'Merida Vista Verde Cainta', '9178192726', '2001-07-25', initcap('customer'), true);

@@ -22,11 +22,8 @@ import org.ssglobal.training.codes.service.UserService;
 import org.ssglobal.training.codes.tables.pojos.Orders;
 import org.ssglobal.training.codes.tables.pojos.Users;
 
-import lombok.extern.log4j.Log4j2;
-
 @RestController
 @RequestMapping(value = "/api/orders")
-@Log4j2
 public class OrderController {
 
 	@Autowired
@@ -41,6 +38,7 @@ public class OrderController {
 	@GetMapping(value = "/get/{userId}")
 	public ResponseEntity<List<Orders>> selectOrderByUser(@PathVariable(name = "userId") Integer userId) {
 		List<Orders> cartList = orderService.selectOrdersByUser(userId);
+
 		return !cartList.isEmpty() ? new ResponseEntity<>(cartList, HttpStatus.OK) : ResponseEntity.notFound().build();
 	}
 	
