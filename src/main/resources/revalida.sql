@@ -155,11 +155,14 @@ insert into product(product_name, product_details, ingredients, quantity, price,
 values ('The Pizza','Cheesy Pizza with ham', 'cheese, ham, dough', 1000, 178.00, 7, 'food-1.jpg');
 
 insert into product(product_name, product_details, ingredients, quantity, price, category_id, image)
+values ('Saang Special Burger','high quality patty with vegetables', 'mayonnaise, patty, brad', 1000, 210.00, 9, 'saang_special_burger.jpg');
+
+insert into product(product_name, product_details, ingredients, quantity, price, category_id, image)
 values ('Salty Fries', 'Your plain old clasic regular fries but better', 'potato, catsup', 1000, 65.00, 10, 'food-4.jpg');
 
 
 insert into users(username, password, first_name, middle_name, last_name, email, address, contact_no, birth_date, user_type, is_active) 
-values('pastrero', '123456', initcap('patrick luke'), initcap('artuz'), initcap('astrero'), initcap('patzluke@gmail.com'), 'Merida Vista Verde Cainta', '9055261296', '2003-07-25', initcap('Admin'), true);
+values('pastrero', '123456', initcap('patrick luke'), initcap('artuz'), initcap('astrero'), initcap('patrickluke.astrero.cics@ust.edu.ph'), 'Merida Vista Verde Cainta', '9055261296', '2003-07-25', initcap('Admin'), true);
 
 insert into users(username, password, first_name, middle_name, last_name, email, address, contact_no, birth_date, user_type, is_active) 
-values('nikaastrero', '123456', initcap('nika ondria'), initcap('artuz'), initcap('astrero'), initcap('nika@gmail.com'), 'Merida Vista Verde Cainta', '9178192726', '2001-07-25', initcap('customer'), true);
+values('nikaastrero', '123456', initcap('nika ondria'), initcap('artuz'), initcap('astrero'), initcap('angularrevalida@gmail.com'), 'Merida Vista Verde Cainta', '9178192726', '2001-07-25', initcap('customer'), true);
