@@ -55,6 +55,11 @@ public class UserController {
 		return new ResponseEntity<>(userService.selectUserByName(name), HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "/get/interests/{userId}")
+	public ResponseEntity<List<Map<String, Object>>> selectUserByIdWithListOfInterest(@PathVariable(name = "userId") Integer userId) {
+		return new ResponseEntity<>(userService.selectUserWithListOfInterest(userId), HttpStatus.OK);
+	}
+	
 	@GetMapping(value = "/get/{userId}")
 	public ResponseEntity<Users> selectUserById(@PathVariable(name = "userId") Integer userId) {
 		return new ResponseEntity<>(userService.selectUser(userId), HttpStatus.OK);
@@ -131,7 +136,13 @@ public class UserController {
 	@SuppressWarnings("rawtypes")
 	@PutMapping(value = "/update", consumes = {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity updateUser(@RequestBody Users user) {
-		return userService.updateUser(user) ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
+		if (userService.updateUser(user)) {
+			if (!user.getPassword().equals("")) {
+				userService.changePassword(user.getPassword(), user.getUsername());
+			}
+			return ResponseEntity.ok().build(); 
+		}
+		return  ResponseEntity.badRequest().build();
 	}
 	
 	@SuppressWarnings("rawtypes")
@@ -153,5 +164,16 @@ public class UserController {
 	@PutMapping(value = "/update/password", consumes = {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity changePassword(@RequestBody Map<String, String> payload) {
 		return userService.changePassword(payload.get("password"), payload.get("username")) ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@PutMapping(value = "/forgot/password", consumes = {MediaType.APPLICATION_JSON_VALUE})
+	public ResponseEntity<String> forgotPassword(@RequestBody Map<String, String> payload) {
+        String sixRandomNumber = RandomStringUtils.randomNumeric(6);
+		if (userService.forgotPassword(sixRandomNumber, payload.get("username"), 
+									   payload.get("contactNo"), payload.get("email"))) {
+			return ResponseEntity.ok(sixRandomNumber); 
+		}
+		return  ResponseEntity.badRequest().build();
 	}
 }

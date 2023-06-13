@@ -45,6 +45,11 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	public List<Map<String, Object>> selectUserWithListOfInterest(Integer userId) {
+		return userRepository.selectUserWithListOfInterest(userId);
+	}
+	
+	@Override
 	public Users selectUser(Integer userId) {
 		return userRepository.selectUser(userId);
 	}
@@ -91,6 +96,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean changePassword(String password, String username) {
 		return userRepository.changePassword(encoder().encode(password), username);
+	}
+	
+	@Override
+	public boolean forgotPassword(String password, String username, String contactNo, String email) {
+		return userRepository.forgotPassword(encoder().encode(password), username, contactNo, email);
 	}
 	
 	@Override

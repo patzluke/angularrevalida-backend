@@ -17,7 +17,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserRepository {
 	private final org.ssglobal.training.codes.tables.Users USERS = org.ssglobal.training.codes.tables.Users.USERS;
-	
+	private final org.ssglobal.training.codes.tables.ListOfInterest LIST_OF_INTEREST = org.ssglobal.training.codes.tables.ListOfInterest.LIST_OF_INTEREST;
+
 	@Autowired
 	private final DSLContext dslContext;
 	
@@ -26,6 +27,17 @@ public class UserRepository {
 									  .where(USERS.USER_TYPE.notEqualIgnoreCase("Admin"))
 									  .fetchInto(Users.class);
 		return users;
+	}
+
+	public List<Map<String, Object>> selectUserWithListOfInterest(Integer userId) {
+		return dslContext.select(USERS.USER_ID.as("userId"), USERS.USERNAME.as("username"), USERS.PASSWORD.as("password"),
+								 USERS.FIRST_NAME.as("firstName"), USERS.MIDDLE_NAME.as("middleName"), USERS.LAST_NAME.as("lastName"), 
+								 USERS.EMAIL.as("email"), USERS.ADDRESS.as("address"), USERS.CONTACT_NO.as("contactNo"),
+								 USERS.BIRTH_DATE.as("birthDate"), USERS.USER_TYPE.as("userType"), USERS.IS_ACTIVE.as("isActive"), 
+								 LIST_OF_INTEREST.INTEREST.as("listOfInterest"))
+								 .from(USERS)
+								 .innerJoin(LIST_OF_INTEREST).on(USERS.USER_ID.eq(LIST_OF_INTEREST.USER_ID))
+								 .where(USERS.USER_ID.eq(userId)).fetchMaps();
 	}
 	
 	public Users selectUser(Integer userId) {
@@ -64,9 +76,7 @@ public class UserRepository {
 									   .set(USERS.FIRST_NAME, DSL.aggregate("initcap", String.class, DSL.field("'%s'".formatted(user.getFirstName()))))
 									   .set(USERS.MIDDLE_NAME, DSL.aggregate("initcap", String.class, DSL.field("'%s'".formatted(user.getMiddleName()))))
 									   .set(USERS.LAST_NAME, DSL.aggregate("initcap", String.class, DSL.field("'%s'".formatted(user.getLastName()))))
-									   .set(USERS.EMAIL, user.getEmail())
 									   .set(USERS.ADDRESS, user.getAddress())
-									   .set(USERS.CONTACT_NO, user.getContactNo())
 									   .where(USERS.USER_ID.eq(user.getUserId()))
 									   .execute() == 1;
 		
@@ -101,6 +111,19 @@ public class UserRepository {
 		boolean updateUser = dslContext.update(USERS)
 									   .set(USERS.PASSWORD, password)
 									   .where(USERS.USERNAME.eq(username))
+									   .execute() == 1;
+		if (updateUser) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean forgotPassword(String password, String username, String contactNo, String email) {
+		boolean updateUser = dslContext.update(USERS)
+									   .set(USERS.PASSWORD, password)
+									   .where(USERS.USERNAME.eq(username)
+									   .and(USERS.CONTACT_NO.eq(contactNo))
+									   .and(USERS.EMAIL.eq(email)))
 									   .execute() == 1;
 		if (updateUser) {
 			return true;

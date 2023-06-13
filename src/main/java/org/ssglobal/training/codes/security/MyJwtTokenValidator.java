@@ -66,6 +66,7 @@ public class MyJwtTokenValidator extends OncePerRequestFilter {
 			   request.getRequestURI().contains("/api/cart/get/") ||
 			   request.getRequestURI().equals("/api/otp/validate") ||
 			   request.getRequestURI().equals("/api/otp/resend") ||
+			   request.getRequestURI().equals("/api/users/forgot/password") ||
 			   request.getRequestURI().equals("/api/users/update/password");
 	}
 
