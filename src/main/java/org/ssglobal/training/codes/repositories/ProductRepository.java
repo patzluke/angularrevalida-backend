@@ -29,7 +29,9 @@ public class ProductRepository {
 	}
 	
 	public List<Product> selectAllProducts() {
-		List<Product> products = dslContext.selectFrom(PRODUCT).fetchInto(Product.class);
+		List<Product> products = dslContext.selectFrom(PRODUCT)
+										   .orderBy(PRODUCT.PRODUCT_ID.asc())
+										   .fetchInto(Product.class);
 		return products;
 	}
 	

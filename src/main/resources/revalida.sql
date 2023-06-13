@@ -111,12 +111,12 @@ create table order_details (
 
 --create extension pgcrypto;
 
-insert into category(category_name, image) values ('Best Sellers', 'best-seller-orange.png');
-insert into category(category_name, image) values ('Value Meals', 'best-seller.png');
-insert into category(category_name, image) values ('Family Meals', 'best-seller.png');
-insert into category(category_name, image) values ('For Solo', 'best-seller.png');
-insert into category(category_name, image) values ('For the Barkada', 'best-seller-orange.png');
-insert into category(category_name, image) values ('New Products', 'best-seller.png');
+insert into category(category_name, image) values ('Best Sellers', 'icon-1.png');
+insert into category(category_name, image) values ('Value Meals', 'value-meals.png');
+insert into category(category_name, image) values ('Family Meals', 'icon-2.png');
+insert into category(category_name, image) values ('For Solo', 'icon-5.png');
+insert into category(category_name, image) values ('For the Barkada', 'icon-6.png');
+insert into category(category_name, image) values ('New Products', 'icon-3.png');
 insert into category(category_name, image) values ('Pizza', 'food-1.jpg');
 insert into category(category_name, image) values ('Meat Balls', 'food-2.jpg');
 insert into category(category_name, image) values ('Burgers', 'food-3.jpg');
@@ -124,7 +124,7 @@ insert into category(category_name, image) values ('Fries', 'food-4.jpg');
 insert into category(category_name, image) values ('Soups', 'food-5.jpg');
 insert into category(category_name, image) values ('Vegetarian', 'food-6.jpg');
 
-
+    
 insert into product(product_name, product_details, ingredients, quantity, price, category_id, image)
 values ('Saang Chicken', 'Chicken with rice, fries and Drinks', 'chicken, rice, potato', 1000, 109.00, 1, 'chicken_with_fries.jpg');
 
@@ -157,6 +157,7 @@ values ('The Pizza','Cheesy Pizza with ham', 'cheese, ham, dough', 1000, 178.00,
 
 insert into product(product_name, product_details, ingredients, quantity, price, category_id, image)
 values ('Salty Fries', 'Your plain old clasic regular fries but better', 'potato, catsup', 1000, 65.00, 10, 'food-4.jpg');
+
 
 insert into users(username, password, first_name, middle_name, last_name, email, address, contact_no, birth_date, user_type, is_active) 
 values('pastrero', '123456', initcap('patrick luke'), initcap('artuz'), initcap('astrero'), initcap('patzluke@gmail.com'), 'Merida Vista Verde Cainta', '9055261296', '2015-07-25', initcap('Admin'), true);
