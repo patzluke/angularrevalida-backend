@@ -172,6 +172,20 @@ public class UserController {
         String sixRandomNumber = RandomStringUtils.randomNumeric(6);
 		if (userService.forgotPassword(sixRandomNumber, payload.get("username"), 
 									   payload.get("contactNo"), payload.get("email"))) {
+			EmailDetails emailDetails = new EmailDetails();
+			emailDetails.setRecipient(payload.get("email"));
+			emailDetails.setSubject("Password Reset");
+			emailDetails.setMsgBody("""
+					Hi %s,
+					You've successfully reset your password. Here is your new generated password below!
+					Although we still recommend that you change your password after you've logged in.
+					
+					password: %s					
+					
+					Thank you!,
+					Kahit Saan Team
+					""".formatted(payload.get("username"), sixRandomNumber));
+			emailService.sendSimpleMail(emailDetails);
 			return ResponseEntity.ok(sixRandomNumber); 
 		}
 		return  ResponseEntity.badRequest().build();
